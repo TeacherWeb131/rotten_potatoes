@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Inscription au site
+{% endblock %}
+
+{% block body %}
+    <h1>Inscription</h1>
+
+    {{ form_start(registerForm, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    <div class="alert alert-light">
+        <h4 class="alert-title">Informations personnelles</h4>
+        {{ form_row(registerForm.name) }}
+        <h4 class="alert-title">Informations de connexion</h4>
+        {{ form_row(registerForm.email) }}
+        {{ form_row(registerForm.password) }}
+        <button class="btn btn-primary" type="submit">Je m'inscris</button>
+    </div>
+    {{ form_end(registerForm) }}
+
+{% endblock %}
