@@ -24,6 +24,9 @@ class AccountController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Attribuer les valeurs manquantes par le formulaire (roles et avatar)
+            $user->setRoles(["ROLE_USER"]);
+            $user->setAvatar("http://placehold.it/150x150");
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
 

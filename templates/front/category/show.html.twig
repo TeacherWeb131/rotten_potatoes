@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category{% endblock %}
+
+{% block body %}
+    <h1>Categorie {{ category.title }}</h1>
+
+    {# <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ category.title }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ category.slug }}</td>
+            </tr>
+        </tbody>
+    </table> #}
+
+    <a class="btn btn-primary btn-sm" href="{{ path('home') }}">Retour aux catégories</a>
+
+    {# <a class="btn btn-info btn-sm" href="{{ path('admin_category_edit', {'id': category.id}) }}">Editer</a> #}
+
+    {# <a class="btn btn-danger btn-sm" href="{{ path('admin_category_edit', {'id': category.id}) }}">Supprimer</a> #}
+
+    {# {{ include('category/_delete_form.html.twig') }} #}
+{% endblock %}
