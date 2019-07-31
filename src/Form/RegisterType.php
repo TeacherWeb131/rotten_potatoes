@@ -21,6 +21,12 @@ class RegisterType extends AbstractType
                     'placeholder' => "Votre nom !"
                 ]
             ])
+            ->add('avatar', TextType::class, [
+                'label' => "Avatar",
+                'attr' => [
+                    'placeholder' => "Votre avatar !"
+                ]
+            ])
             ->add('email', EmailType::class, [
                 'label' => "Adresse Email",
                 'attr' => [

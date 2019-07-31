@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use App\Entity\Movie;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/", name="home", methods={"GET"})
+     * @Route("/", name="home")
      */
     public function home(CategoryRepository $categoryRepository): Response
     {
@@ -25,17 +26,17 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/category/{slug}", name="front_category_show", methods={"GET"})
+     * @Route("/category/{slug}", name="front_category_show")
      */
     public function frontshow(Category $category): Response
-    {
+    {   
         return $this->render('front/category/show.html.twig', [
             'category' => $category,
         ]);
     }
 
     /**
-     * @Route("/admin/category", name="admin_category_index", methods={"GET"})
+     * @Route("/admin/category", name="admin_category_index")
      */
     public function index(CategoryRepository $categoryRepository): Response
     {

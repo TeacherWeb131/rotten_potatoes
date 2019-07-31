@@ -64,7 +64,8 @@ class AppFixtures extends Fixture
             $person->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
                 ->setBirthday($faker->dateTimeBetween("-70 years", "-15 years"))
-                ->setPicture("http://placehold.it/150x150")
+                // ->setPicture("http://placehold.it/150x150")
+                ->setPicture($faker->imageUrl(150, 150, NULL))
                 ->setDescription($faker->realText())
                 ->setSlug($slugify->slugify($person->getFirstname() . ' ' . $person->getLastname()));
             // J'ajoute la personne au tableau des people pour m'en resservir après
@@ -77,7 +78,9 @@ class AppFixtures extends Fixture
         $users = [];
         for ($u = 0; $u < 20; $u++) {
             $user = new User;
-            $user->setAvatar("http://placehold.it/150x150")
+            $user
+                // ->setAvatar("http://placehold.it/150x150")
+                ->setAvatar($faker->imageUrl(150, 150, NULL))
                 ->setEmail("user$u@gmail.com")
                 ->setPassword($this->encoder->encodePassword($user, "pass"))
                 ->setName($faker->userName);
@@ -96,7 +99,8 @@ class AppFixtures extends Fixture
             // J'affecte des valeurs à cet objet Movie
             $movie->setTitle($faker->catchPhrase)
                 ->setSlug($slugify->slugify($movie->getTitle()))
-                ->setPoster("http://placehold.it/400x200")
+                // ->setPoster("http://placehold.it/400x200")
+                ->setPoster($faker->imageUrl(400, 200, NULL))
                 ->setSynopsis($faker->catchPhrase)
                 ->setReleasedAt($faker->dateTimeBetween('-30 years'));
 

@@ -16,6 +16,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarColor02">
+                {% if is_granted('ROLE_ADMIN') %}
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Catégories
@@ -32,19 +33,22 @@
                         <a class="nav-link" href="#">People</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
+                {% endif %}
+                <form class="form-inline my-2 my-lg-0 mr-2">
                     <input class="form-control mr-sm-2" placeholder="Search" type="text">
                     <button class="btn btn-light my-2 my-sm-0 mr-2 btn-sm" type="submit">Search</button>
                 </form>
                 {% if not is_granted("ROLE_USER") %}
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item mr-2">
                         <a class="btn btn-primary btn-sm" class="nav-link" href="{{ path('account_register') }}">Inscription</a>
                     </li>
                     <li class="nav-item mr-2">
                         <a class="btn btn-success btn-sm" class="nav-link" href="{{ path('security_login') }}">Connexion</a>
                     </li>
+                </ul>
                 {% else %}
+                <ul class="navbar-nav ml-auto">
                     {# app.user permet d'atteindre l'objet User #}
                     <li style = "list-style-type: none;" class="nav-item mr-2">
                         <i class="fas fa-user-circle fa-lg"></i>

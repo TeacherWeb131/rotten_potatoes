@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movie{% endblock %}
+
+{% block body %}
+    {# <h1>{{ movie.title }}</h1> #}
+    <div class="col-lg-8">
+        <div class="card mb-3">
+            <h3 class="card-header">{{ movie.title }}</h3>
+            <img alt="Card image" src="{{ movie.poster }}" style="height: 200px; width: 100%; display: block;">
+            <div class="card-body">
+                <p class="card-text">Sinopsis :
+                    {{ movie.synopsis }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    ReleasedAt :
+                    {{ movie.releasedAt | date("m/d/Y") }}
+                </li>
+                <li class="list-group-item">
+                    Réalisateur :
+                    {{ movie.director.firstname }} {{ movie.director.lastname }}
+                </li>
+                <li class="list-group-item">
+                    Acteurs :
+                    {% for actor in movie.actors %}
+                        {{ actor.firstname }} {{ actor.lastname }}
+                    {% endfor %}
+                </li>
+                <li class="list-group-item">
+                    <p>Note Moyenne : 
+                        <span class="badge badge-pill badge-warning">{{ movie.moyenne  | number_format(1, ","," ") }}</span>
+                    </p>
+                </li>
+            </ul>
+            <div class="card-body">
+                Note (rating) :
+                {% for rating in movie.ratings %}
+                    <p>{{ rating.author.name }} a dit :</p>
+                    <p>{{ rating.comment }}</p>
+                    <p>
+                    Il attribué la note de 
+                    <span class="badge badge-pill badge-secondary">
+                        {{ rating.notation }}
+                    </span>
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+        <h5>Voir les mêmes catégories de film</h5>
+        {% for category in movie.categories %}
+            <a class="btn btn-success btn-sm mr-2" href="{{ path('front_category_show', {'slug': category.slug}) }}">
+                {{ category.title }}
+            </a>
+        {% endfor %}
+
+        {% if is_granted('ROLE_USER') %}
+            {# Ratings sur le film #}
+            <h4>Donnez votre avis sur ce film :</h4>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary btn-sm">{{ button_label|default('Enregistrer') }}</button>
+            {{ form_end(form) }}
+        {% endif %}
+
+    </div>
+{% endblock %}

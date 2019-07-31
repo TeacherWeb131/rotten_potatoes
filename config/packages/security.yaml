@@ -12,9 +12,8 @@ security:
                 property: email
 
     # role_hierarchy:
-    #     ROLE_ADMIN: [ROLE_MODERATEUR, ROLE_REDACTEUR, ROLE_ALLOWED_TO_SWITCH]
-    #     ROLE_REDACTEUR: ROLE_MODERATEUR
-    #     ROLE_MODERATEUR: ROLE_USER
+    #     ROLE_ADMIN: [ROLE_MODERATOR, ROLE_ALLOWED_TO_SWITCH]
+    #     ROLE_MODERATOR: ROLE_ADMIN
 
     firewalls:
         dev:
@@ -26,7 +25,6 @@ security:
             form_login:
                 login_path: security_login
                 check_path: security_login
-                default_target_path: admin_category_index
             
             logout:
                 path: security_logout
@@ -41,4 +39,5 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }

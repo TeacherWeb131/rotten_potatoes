@@ -4,29 +4,30 @@
 
 {% block body %}
     <h1>Categorie {{ category.title }}</h1>
-
-    {# <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ category.title }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ category.slug }}</td>
-            </tr>
-        </tbody>
-    </table> #}
-
-    <a class="btn btn-primary btn-sm" href="{{ path('home') }}">Retour aux catégories</a>
-
-    {# <a class="btn btn-info btn-sm" href="{{ path('admin_category_edit', {'id': category.id}) }}">Editer</a> #}
-
-    {# <a class="btn btn-danger btn-sm" href="{{ path('admin_category_edit', {'id': category.id}) }}">Supprimer</a> #}
-
-    {# {{ include('category/_delete_form.html.twig') }} #}
+    <div class="row">
+        {% for movie in category.movies %}
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <h3 class="card-header">{{ movie.title }}</h3>
+                <img alt="Card image" src="{{ movie.poster }}" style="height: 200px; width: 100%; display: block;">
+                <div class="card-body">
+                    <p class="card-text">Sinopsis : {{ movie.synopsis }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ReleasedAt :
+                        {{ movie.releasedAt | date("m/d/Y") }}
+                    </li>
+                    <li class="list-group-item">
+                        Note (rating) :
+                        <span class="badge badge-pill badge-warning">{{ movie.moyenne  | number_format(1, ","," ") }}</span>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a class="btn btn-primary btn-sm" href="{{ path('movie_show', {'slug': movie.slug}) }}">Voir</a>
+                </div>
+            </div>
+        </div>{# col #}
+        {% endfor %}
+    </div>{# row #}
+    <a class="btn btn-success btn-sm mb-5" href="{{ path('home') }}">Retour aux catégories</a>
 {% endblock %}

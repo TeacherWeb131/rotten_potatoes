@@ -70,6 +70,21 @@ class Movie
         $this->ratings = new ArrayCollection();
     }
 
+    /**
+     * Calcul de la moyenne des notes d'un film (ratings)
+     *
+     * @return void
+     */
+    public function getMoyenne()
+    {
+        $total = 0;
+        foreach ($this->ratings as $rating) {
+            $total += $rating->getNotation();
+        }
+        $moyenne = $total/count($this->ratings);
+        return $moyenne;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
