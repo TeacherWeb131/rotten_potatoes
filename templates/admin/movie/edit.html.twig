@@ -3,11 +3,11 @@
 {% block title %}Edit Movie{% endblock %}
 
 {% block body %}
-    <h1>Edit Movie</h1>
+    <h1>Modifier un film</h1>
 
-    {{ include('movie/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/movie/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('movie_index') }}">back to list</a>
+    <a class="btn btn-success btn-sm" href="{{ path('admin_movie_index') }}">Voir la liste</a>
 
-    {{ include('movie/_delete_form.html.twig') }}
+    {{ include('admin/movie/_delete_form.html.twig') }}
 {% endblock %}

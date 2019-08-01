@@ -34,9 +34,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('movie_index') }}">back to list</a>
+    <a class="btn btn-success btn-sm" href="{{ path('admin_movie_index') }}">Voir la liste</a>
+    <a class="btn btn-primary btn-sm" href="{{ path('admin_movie_edit', {'id': movie.id}) }}">Editer</a>
+    {# <a class="btn btn-danger btn-sm" href="{{ path('admin_movie_delete', {'id': movie.id}) }}">Supprimer</a> #}
 
-    <a href="{{ path('movie_edit', {'id': movie.id}) }}">edit</a>
-
-    {{ include('movie/_delete_form.html.twig') }}
+    {{ include('admin/movie/_delete_form.html.twig') }}
 {% endblock %}

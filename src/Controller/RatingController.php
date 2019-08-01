@@ -9,12 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Doctrine\Common\Persistence\ObjectManager;
 
 class RatingController extends AbstractController
 {
     /**
-     * @Route("/rating", name="rating_index", methods={"GET"})
+     * @Route("/admin/rating", name="admin_rating_index")
      */
     public function index(RatingRepository $ratingRepository): Response
     {
@@ -47,7 +47,7 @@ class RatingController extends AbstractController
     }
 
     /**
-     * @Route("/admin/rating/{id}", name="admin_rating_show", methods={"GET"})
+     * @Route("/admin/rating/{id}", name="admin_rating_show")
      */
     public function show(Rating $rating): Response
     {
@@ -67,7 +67,7 @@ class RatingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin/rating_index');
+            return $this->redirectToRoute('admin_rating_index');
         }
 
         return $this->render('admin/rating/edit.html.twig', [
@@ -77,16 +77,15 @@ class RatingController extends AbstractController
     }
 
     /**
-     * @Route("/admin/rating/{id}", name="admin_rating_delete", methods={"DELETE"})
+     * @Route("/admin/rating/{id}/delete", name="admin_rating_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Rating $rating): Response
+    public function delete(Request $request, Rating $rating, ObjectManager $manager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$rating->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($rating);
-            $entityManager->flush();
+            $manager->remove($rating);
+            $manager->flush();
         }
 
-        return $this->redirectToRoute('admin/rating_index');
+        return $this->redirectToRoute('admin_rating_index');
     }
 }

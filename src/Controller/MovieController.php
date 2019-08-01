@@ -29,18 +29,19 @@ class MovieController extends AbstractController
     /**
      * @Route("/admin/movie/new", name="admin_movie_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ObjectManager $manager): Response
     {
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($movie);
-            $entityManager->flush();
+            // J'attribue des valeurs aux champs manquants (objets) dans le formulaire
+            //...
+            $manager->persist($movie);
+            $manager->flush();
 
-            return $this->redirectToRoute('admin/movie_index');
+            return $this->redirectToRoute('admin_movie_index');
         }
 
         return $this->render('admin/movie/new.html.twig', [
@@ -49,18 +50,8 @@ class MovieController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/admin/movie/{id}", name="movie_show")
-    //  */
-    // public function show(Movie $movie): Response
-    // {
-    //     return $this->render('movie/show.html.twig', [
-    //         'movie' => $movie,
-    //     ]);
-    // }
-
     /**
-     * @Route("/admin/movie/{slug}", name="admin_movie_show")
+     * @Route("/admin/movie/{id}", name="admin_movie_show")
      */
     public function show(Movie $movie): Response
     {
@@ -79,7 +70,7 @@ class MovieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // J'attribue des valeurs aux champs manquants dans le formulaire
+            // J'attribue des valeurs aux champs manquants (objets) dans le formulaire
             $rating->setAuthor($this->getUser())
                 ->setMovie($movie)
                 ->setCreatedAt(new \DateTime());
@@ -97,15 +88,15 @@ class MovieController extends AbstractController
     /**
      * @Route("/admin/movie/{id}/edit", name="admin_movie_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Movie $movie): Response
+    public function edit(Request $request, Movie $movie, ObjectManager $manager): Response
     {
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $manager->flush();
 
-            return $this->redirectToRoute('admin/movie_index');
+            return $this->redirectToRoute('admin_movie_index');
         }
 
         return $this->render('admin/movie/edit.html.twig', [
@@ -115,16 +106,12 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @Route("/admin/movie/{id}", name="admin_movie_delete", methods={"DELETE"})
+     * @Route("/admin/movie/{id}/delete", name="admin_movie_delete")
      */
-    public function delete(Request $request, Movie $movie): Response
+    public function delete(Movie $movie, ObjectManager $manager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$movie->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($movie);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('admin/movie_index');
+        $manager->remove($movie);
+        $manager->flush();
+        return $this->redirectToRoute('admin_movie_index');
     }
 }

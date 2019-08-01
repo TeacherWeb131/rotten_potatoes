@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}People{% endblock %}
+
+{% block body %}
+<h1>Artiste : {{ people.firstName }} {{ people.lastName }}</h1>
+    <img src="{{ people.picture }}" alt="photo de l'artiste">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Présentation</th>
+                <td>{{ people.description }}</td>
+            </tr>
+            <tr>
+                <th>Né le</th>
+                <td>{{ people.birthday ? people.birthday|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Ses films</th>
+                <td>
+                    {% if people.actedInMovies | length > 0  %}
+                        {{people.firstName}}
+                        a joué dans
+                        {{ people.actedInMovies | length}}
+                        films :
+                        {% for movie in people.actedInMovies %}
+                            <div class="row mb-3">
+                                <div class="col-2">
+                                    <img src="{{movie.poster}}" alt="" class="img-fluid">
+                                </div>
+                                <div class="col">
+                                    <h3>{{movie.title}}
+                                    </h3>
+                                    {% for category in movie.categories %}
+                                            <a href="{{path('front_category_show', {'slug': category.slug})}}" class="badge badge-dark">
+                                            {{ category.title }}
+                                        </a>
+                                    {% endfor %}
+                                    <h6 class="text-muted mt-3">
+                                        Réalisé par
+                                        {{ movie.director.firstName }} {{ movie.director.lastName }}
+                                        en
+                                        {{ movie.releasedAt | date('Y') }}
+                                    </h6>
+                                    <h5>
+                                        <span class="badge badge-success">{{movie.moyenne | number_format(1, ",", " ") }}</span>
+                                        par la communauté de Rotten Potatoes
+                                    </h5>
+                                    <div class="details">
+                                        <strong>Synopsis :</strong>
+                                        <p>{{ movie.synopsis }}</p>
+
+                                        <strong>
+                                            Avec :
+                                        </strong>
+                                        {% for actor in movie.actors %}
+                                            {% if not loop.last %}
+                                                {{ actor.firstName }} {{ actor.lastName }},
+                                            {% else %}
+                                                {{ actor.firstName }} {{ actor.lastName }}.
+                                            {% endif %}
+                                        {% endfor %}
+                                        {# {% if movie.actors|length > 3 %}
+                                            et
+                                            {{movie.actors|length - 3}}
+                                            autres acteurs
+                                        {% endif %} #}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

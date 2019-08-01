@@ -50,11 +50,13 @@ class People
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Movie", inversedBy="actors")
+     * @ORM\OrderBy({"releasedAt": "DESC"})
      */
     private $actedInMovies;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="director")
+     * @ORM\OrderBy({"director": "DESC"})
      */
     private $directedMovies;
 
@@ -62,6 +64,11 @@ class People
     {
         $this->actedInMovies = new ArrayCollection();
         $this->directedMovies = new ArrayCollection();
+    }
+
+    public function getFullName()
+    {
+        return $this->firstName. " " .$this->lastName;
     }
 
     public function getId(): ?int
